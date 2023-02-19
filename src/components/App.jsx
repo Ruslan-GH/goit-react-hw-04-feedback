@@ -5,31 +5,52 @@ import Section from './Section';
 import Notification from './Notification/Notification';
 
 const App = () => {
-  const [state, setState] = useState({ good: 0, neutral: 0, bad: 0 });
+  const [good, setStateGood] = useState(0);
+  const [neutral, setStateNeutral] = useState(0);
+  const [bad, setStateBad] = useState(0);
 
-  const { good, neutral, bad } = state;
+  // інший варіант
+  // const [state, setState] = useState({ good: 0, neutral: 0, bad: 0 });
+  // const { good, neutral, bad } = state;
 
-  const counterFeedback = e => {
-    setState(prevState => ({
-      ...prevState,
-      [e]: prevState[e] + 1,
-    }));
+  const counterFeedback = type => {
+    switch (type) {
+      case 'good':
+        setStateGood(good + 1);
+        break;
+      case 'neutral':
+        setStateNeutral(neutral + 1);
+        break;
+      case 'bad':
+        setStateBad(bad + 1);
+        break;
+      default:
+        console.log(`Ups, there is some problem with ${type} button`);
+    }
   };
 
+  // інший варіант (!!! додати state до аргументів)
+  // const counterFeedback = e => {
+  //   setState(prevState => ({
+  //     ...prevState,
+  //     [e]: prevState[e] + 1,
+  //   }));
+  // };
+
   const countTotalFeedback = () => {
-    const total = state.good + state.neutral + state.bad;
+    const total = good + neutral + bad;
     return total;
   };
 
   const positivePercentageFeedbacks = () => {
-    const percentage = Math.round((state.good * 100) / countTotalFeedback());
+    const percentage = Math.round((good * 100) / countTotalFeedback());
     return percentage;
   };
 
   const array = ['good', 'neutral', 'bad'];
 
   const positiveFeedbackPercentage =
-    state.good === 0 ? 0 : positivePercentageFeedbacks();
+    good === 0 ? 0 : positivePercentageFeedbacks();
 
   const title = '☕️ Cafe Expresso ☕️';
 
